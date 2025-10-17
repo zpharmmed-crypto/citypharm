@@ -7,10 +7,10 @@ class EmployeeInline(admin.TabularInline):
 
 @admin.register(Branch)
 class BranchAdmin(admin.ModelAdmin):
-    list_display = ('name',)
+    list_display = ("name", "address")
     inlines = [EmployeeInline]
 
 @admin.register(Employee)
 class EmployeeAdmin(admin.ModelAdmin):
-    list_display = ('full_name', 'branch')
-    list_filter = ('branch',)
+    list_display = ("full_name", "branch", "position")
+    list_filter = ("branch",)
