@@ -4,13 +4,8 @@ import dj_database_url
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# SECRET_KEY берём из переменных окружения (на Render задаём вручную)
-SECRET_KEY = os.environ.get("SECRET_KEY", "django-insecure-local-default")
-
-# DEBUG: по умолчанию False в проде
-DEBUG = False
-
-# ALLOWED_HOSTS: можно задавать через переменную, либо разрешить все (для теста)
+SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-default')
+DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 ALLOWED_HOSTS = ['*']
 
 # CSRF: разрешаем домены Render/ngrok если понадобятся
