@@ -1,22 +1,13 @@
 #!/usr/bin/env bash
-# Render build script for Django
+# Exit on error
+set -o errexit
 
-set -o errexit  # Exit on error
+# Install dependencies
+pip install -r requirements.txt
 
-echo "📦 Running Django migrations..."
-python manage.py makemigrations --noinput
-python manage.py migrate --noinput
+# Run migrations
+python manage.py makemigrations
+python manage.py migrate
 
-echo "✅ Migrations completed."
-
-# Optional: auto-create superuser
-echo "👑 Checking for superuser..."
-python manage.py shell <<EOF
-from django.contrib.auth import get_user_model
-User = get_user_model()
-if not User.objects.filter(username="admin").exists():
-    User.objects.create_superuser("admin", "admin@example.com", "Admin12345")
-    print("✅ Superuser created: admin / Admin12345")
-else:
-    print("🟢 Superuser already exists.")
-EOF
+# Collect static files
+python manage.py collectstatic --noinput

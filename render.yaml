@@ -2,10 +2,13 @@ services:
   - type: web
     name: citypharm
     env: python
-    buildCommand: "./render_build.sh && pip install -r requirements.txt"
+    plan: free
+    buildCommand: "./render_build.sh"
     startCommand: "gunicorn citypharm.wsgi:application"
     envVars:
       - key: DATABASE_URL
-        fromDatabase:
-          name: citypharm_glavnaia_apteka
-          property: connectionString
+        value: postgresql://citypharm_glavnaia_apteka_user:C514MIZrVNRMdrJgloUlzHozJiL00FLt@dpg-d3p13r63jp1c739r3t2g-a/citypharm_glavnaia_apteka
+      - key: PYTHON_VERSION
+        value: 3.13.4
+      - key: DEBUG
+        value: "False"
