@@ -1,20 +1,22 @@
 #!/usr/bin/env bash
-# 🚀 Скрипт автоматических миграций и создания админа на Render
+# Render build script for Django
 
-echo "📦 Запуск миграций базы данных..."
+set -o errexit  # Exit on error
+
+echo "📦 Running Django migrations..."
 python manage.py makemigrations --noinput
 python manage.py migrate --noinput
 
-echo "✅ Миграции успешно применены."
+echo "✅ Migrations completed."
 
-# Создание суперпользователя (если нет)
-echo "👑 Проверяем наличие суперпользователя..."
+# Optional: auto-create superuser
+echo "👑 Checking for superuser..."
 python manage.py shell <<EOF
 from django.contrib.auth import get_user_model
 User = get_user_model()
 if not User.objects.filter(username="admin").exists():
     User.objects.create_superuser("admin", "admin@example.com", "Admin12345")
-    print("✅ Суперпользователь создан: admin / Admin12345")
+    print("✅ Superuser created: admin / Admin12345")
 else:
-    print("🟢 Суперпользователь уже существует.")
+    print("🟢 Superuser already exists.")
 EOF
