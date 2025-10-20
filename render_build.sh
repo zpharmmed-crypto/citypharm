@@ -1,20 +1,20 @@
 #!/usr/bin/env bash
-# Выполняет миграции и создаёт суперпользователя при деплое на Render
+# 🚀 Скрипт автоматических миграций и создания админа на Render
 
-echo "🚀 Запускаем миграции..."
+echo "📦 Запуск миграций базы данных..."
 python manage.py makemigrations --noinput
 python manage.py migrate --noinput
 
-echo "✅ Миграции применены."
+echo "✅ Миграции успешно применены."
 
-# Автоматическое создание суперпользователя (если его нет)
-echo "⚙️ Проверяем наличие суперпользователя..."
+# Создание суперпользователя (если нет)
+echo "👑 Проверяем наличие суперпользователя..."
 python manage.py shell <<EOF
 from django.contrib.auth import get_user_model
 User = get_user_model()
 if not User.objects.filter(username="admin").exists():
     User.objects.create_superuser("admin", "admin@example.com", "Admin12345")
-    print("👑 Суперпользователь создан: admin / Admin12345")
+    print("✅ Суперпользователь создан: admin / Admin12345")
 else:
-    print("🟢 Суперпользователь уже существует")
+    print("🟢 Суперпользователь уже существует.")
 EOF
