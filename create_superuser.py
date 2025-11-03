@@ -7,9 +7,6 @@ django.setup()
 from django.contrib.auth import get_user_model
 User = get_user_model()
 
-User.objects.all().delete()  # 🧹 Очистим старых пользователей
-print("🧹 Deleted old users.")
-
 if not User.objects.filter(username="admin").exists():
     User.objects.create_superuser("admin", "admin@example.com", "newpassword123")
     print("✅ Superuser created successfully!")
